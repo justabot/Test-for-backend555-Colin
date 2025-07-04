@@ -6,8 +6,8 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
-import axios from "axios";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
+import { authAPI } from "@/utils/api"; 
 
 
 import OpenEye from "@/assets/images/icon/icon_68.svg";
@@ -26,7 +26,7 @@ const RegisterForm = () => {
   .object({
     name: yup.string().required("Name is required"),
     email: yup.string().required("Email is required").email("Invalid email"),
-    password: yup.string().required("Password is required"),
+    password: yup.string().required("Password is required").min(6, "Password must be at least 6 characters long"),
     termsAccepted: yup
       .boolean()
       .oneOf([true], "You must accept the terms and conditions") 
@@ -54,10 +54,10 @@ const RegisterForm = () => {
   const onSubmit = async (data: FormData) => {
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/signup", data);
+      const response = await authAPI.signup(data);
 
       if (response.status === 201) {
-        toast.success("Registration successful! Redirecting to login...", {
+        toast.success(`Registration successful! Welcome ${response.data.user.name}!`, {
           position: "top-center",
         });
 
