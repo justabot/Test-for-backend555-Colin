@@ -7,7 +7,9 @@
     "build": "next build",
     "start": " next start | npm run setup | ts-node backend/src/server.ts ",
     "lint": "next lint",
-    "setup": "node createIcon.mjs"
+    "setup": "node createIcon.mjs",
+    "test": "node test-signup.js",
+    "test:manual": "node test-signup.js"
   },
   "dependencies": {
     "@emailjs/browser": "^4.1.0",
@@ -67,6 +69,27 @@
     "@types/node": "^22.13.13",
     "@types/sequelize": "^4.28.20",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "@types/jest": "^29.5.12",
+    "@types/supertest": "^6.0.2",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4",
+    "ts-jest": "^29.1.2"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": ["<rootDir>/backend/src"],
+    "testMatch": ["**/__tests__/**/*.ts", "**/?(*.)+(spec|test).ts"],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "backend/src/**/*.ts",
+      "!backend/src/**/*.d.ts",
+      "!backend/src/server.ts"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"]
   }
 }

@@ -4,11 +4,14 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const env = process.env.NODE_ENV || 'development';
+const config = require('../../config/config.json')[env];
+
 export const sequelize = new Sequelize({
-  database: "real_estate_db", 
-  username: "postgres",       
-  password: "1572001",  
-  host: "127.0.0.1",
-  dialect: "postgres",
+  database: config.database,
+  username: config.username,
+  password: config.password,
+  host: config.host,
+  dialect: config.dialect,
   models: [User],
 });
